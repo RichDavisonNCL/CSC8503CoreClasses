@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../../Common/Camera.h"
-#include "../../Common/Plane.h"
+#include "Camera.h"
 
 #include "Transform.h"
 #include "GameObject.h"
@@ -101,11 +100,11 @@ namespace NCL {
 		static bool AABBSphereIntersection(	const AABBVolume& volumeA	 , const Transform& worldTransformA,
 										const SphereVolume& volumeB, const Transform& worldTransformB, CollisionInfo& collisionInfo);
 
-		static bool OBBIntersectionSAT(	const OBBVolume& volumeA, const Transform& worldTransformA,
+		static bool OBBIntersection(	const OBBVolume& volumeA, const Transform& worldTransformA,
 										const OBBVolume& volumeB, const Transform& worldTransformB, CollisionInfo& collisionInfo);
 
 
-		static bool OOBBSphereIntersection(const OBBVolume& volumeA, const Transform& worldTransformA,
+		static bool OBBSphereIntersection(const OBBVolume& volumeA, const Transform& worldTransformA,
 			const SphereVolume& volumeB, const Transform& worldTransformB, CollisionInfo& collisionInfo);
 
 
@@ -117,8 +116,6 @@ namespace NCL {
 
 	protected:
 
-
-	
 	private:
 		CollisionDetection()	{}
 		~CollisionDetection()	{}

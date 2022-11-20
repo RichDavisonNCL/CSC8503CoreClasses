@@ -1,5 +1,6 @@
 #pragma once
-#include <vector>
+#include <random>
+
 #include "Ray.h"
 #include "CollisionDetection.h"
 #include "QuadTree.h"
@@ -53,6 +54,10 @@ namespace NCL {
 				std::vector<Constraint*>::const_iterator& first,
 				std::vector<Constraint*>::const_iterator& last) const;
 
+			int GetWorldStateID() const {
+				return worldStateCounter;
+			}
+
 		protected:
 			std::vector<GameObject*> gameObjects;
 			std::vector<Constraint*> constraints;
@@ -62,6 +67,7 @@ namespace NCL {
 			bool shuffleConstraints;
 			bool shuffleObjects;
 			int		worldIDCounter;
+			int		worldStateCounter;
 		};
 	}
 }

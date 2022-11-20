@@ -1,6 +1,6 @@
 #include "PhysicsObject.h"
 #include "PhysicsSystem.h"
-#include "../CSC8503Common/Transform.h"
+#include "Transform.h"
 using namespace NCL;
 using namespace CSC8503;
 
@@ -18,9 +18,6 @@ PhysicsObject::~PhysicsObject()	{
 }
 
 void PhysicsObject::ApplyAngularImpulse(const Vector3& force) {
-	if (force.Length() > 0) {
-		bool a = true;
-	}
 	angularVelocity += inverseInteriaTensor * force;
 }
 

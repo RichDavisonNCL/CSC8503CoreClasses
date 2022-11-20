@@ -1,6 +1,6 @@
 #include "NavigationMesh.h"
-#include "../../Common/Assets.h"
-#include "../../Common/Maths.h"
+#include "Assets.h"
+#include "Maths.h"
 #include <fstream>
 using namespace NCL;
 using namespace CSC8503;

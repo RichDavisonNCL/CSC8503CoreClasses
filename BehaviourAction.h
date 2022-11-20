@@ -1,6 +1,5 @@
 #pragma once
 #include "BehaviourNode.h"
-#include <functional>
 
 typedef std::function<BehaviourState(float, BehaviourState)> BehaviourActionFunc;
 

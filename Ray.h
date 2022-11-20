@@ -1,6 +1,4 @@
 #pragma once
-#include "../../Common/Vector3.h"
-#include "../../Common/Plane.h"
 
 namespace NCL {
 	namespace Maths {

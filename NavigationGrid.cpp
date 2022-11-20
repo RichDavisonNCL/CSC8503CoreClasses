@@ -1,5 +1,5 @@
 #include "NavigationGrid.h"
-#include "../../Common/Assets.h"
+#include "Assets.h"
 
 #include <fstream>
 

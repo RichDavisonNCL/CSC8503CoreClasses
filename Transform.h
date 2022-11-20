@@ -1,10 +1,4 @@
 #pragma once
-#include "../../Common/Matrix4.h"
-#include "../../Common/Matrix3.h"
-#include "../../Common/Vector3.h"
-#include "../../Common/Quaternion.h"
-
-#include <vector>
 
 using std::vector;
 
@@ -37,31 +31,13 @@ namespace NCL {
 			Matrix4 GetMatrix() const {
 				return matrix;
 			}
-
-			void SetParentObject(Transform* t) {
-				parentObject = t;
-			}
-
-			Transform& SetLocalPosition(const Vector3& localPos);
-			Transform& SetLocalScale(const Vector3& localScale);
-			Transform& SetLocalOrientation(const Quaternion& newOr);
-
-		protected:
 			void UpdateMatrix();
-			void UpdateWorldValues();
-			void UpdateLocalValues();
-
+		protected:
 			Matrix4		matrix;
-
-			Vector3		position;
-			Vector3		scale;
 			Quaternion	orientation;
+			Vector3		position;
 
-			Vector3		localPosition;
-			Vector3		localScale;
-			Quaternion	localOrientation;
-
-			Transform* parentObject;
+			Vector3		scale;
 		};
 	}
 }
