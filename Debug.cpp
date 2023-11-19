@@ -75,10 +75,11 @@ void Debug::UpdateRenderables(float dt) {
 }
 
 SimpleFont* Debug::GetDebugFont() {
-	if (!debugFont) {
-		debugFont = new SimpleFont("PressStart2P.fnt", "PressStart2P.png");
-	}
 	return debugFont;
+}
+
+void Debug::CreateDebugFont(const std::string& dataFile, Texture& tex) {
+	debugFont = new SimpleFont(dataFile, tex);
 }
 
 const std::vector<Debug::DebugStringEntry>& Debug::GetDebugStrings() {

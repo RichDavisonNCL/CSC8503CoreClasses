@@ -72,7 +72,7 @@ namespace NCL {
 		//TODO ADD THIS PROPERLY
 		static bool RayBoxIntersection(const Ray&r, const Vector3& boxPos, const Vector3& boxSize, RayCollision& collision);
 
-		static Ray BuildRayFromMouse(const Camera& c);
+		static Ray BuildRayFromMouse(const PerspectiveCamera& c);
 
 		static bool RayIntersection(const Ray&r, GameObject& object, RayCollision &collisions);
 
@@ -108,9 +108,9 @@ namespace NCL {
 			const SphereVolume& volumeB, const Transform& worldTransformB, CollisionInfo& collisionInfo);
 
 
-		static Vector3 Unproject(const Vector3& screenPos, const Camera& cam);
+		static Vector3 Unproject(const Vector3& screenPos, const PerspectiveCamera& cam);
 
-		static Vector3		UnprojectScreenPosition(Vector3 position, float aspect, float fov, const Camera &c);
+		static Vector3		UnprojectScreenPosition(Vector3 position, float aspect, float fov, const PerspectiveCamera&c);
 		static Matrix4		GenerateInverseProjection(float aspect, float fov, float nearPlane, float farPlane);
 		static Matrix4		GenerateInverseView(const Camera &c);
 

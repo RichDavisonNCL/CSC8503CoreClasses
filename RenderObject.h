@@ -1,11 +1,11 @@
 #pragma once
-#include "TextureBase.h"
-#include "ShaderBase.h"
+#include "Texture.h"
+#include "Shader.h"
+#include "Mesh.h"
 
 namespace NCL {
 	using namespace NCL::Rendering;
 
-	class MeshGeometry;
 	namespace CSC8503 {
 		class Transform;
 		using namespace Maths;
@@ -13,18 +13,18 @@ namespace NCL {
 		class RenderObject
 		{
 		public:
-			RenderObject(Transform* parentTransform, MeshGeometry* mesh, TextureBase* tex, ShaderBase* shader);
+			RenderObject(Transform* parentTransform, Mesh* mesh, Texture* tex, Shader* shader);
 			~RenderObject();
 
-			void SetDefaultTexture(TextureBase* t) {
+			void SetDefaultTexture(Texture* t) {
 				texture = t;
 			}
 
-			TextureBase* GetDefaultTexture() const {
+			Texture* GetDefaultTexture() const {
 				return texture;
 			}
 
-			MeshGeometry*	GetMesh() const {
+			Mesh*	GetMesh() const {
 				return mesh;
 			}
 
@@ -32,7 +32,7 @@ namespace NCL {
 				return transform;
 			}
 
-			ShaderBase*		GetShader() const {
+			Shader*		GetShader() const {
 				return shader;
 			}
 
@@ -45,11 +45,11 @@ namespace NCL {
 			}
 
 		protected:
-			MeshGeometry*	mesh;
-			TextureBase*	texture;
-			ShaderBase*		shader;
-			Transform*		transform;
-			Vector4			colour;
+			Mesh*		mesh;
+			Texture*	texture;
+			Shader*		shader;
+			Transform*	transform;
+			Vector4		colour;
 		};
 	}
 }

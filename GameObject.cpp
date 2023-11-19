@@ -6,7 +6,7 @@
 
 using namespace NCL::CSC8503;
 
-GameObject::GameObject(string objectName)	{
+GameObject::GameObject(const std::string& objectName)	{
 	name			= objectName;
 	worldID			= -1;
 	isActive		= true;

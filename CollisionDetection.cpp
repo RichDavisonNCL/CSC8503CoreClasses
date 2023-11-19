@@ -225,8 +225,8 @@ Matrix4 GenerateInverseProjection(float aspect, float nearPlane, float farPlane,
 	return m;
 }
 
-Vector3 CollisionDetection::Unproject(const Vector3& screenPos, const Camera& cam) {
-	Vector2 screenSize = Window::GetWindow()->GetScreenSize();
+Vector3 CollisionDetection::Unproject(const Vector3& screenPos, const PerspectiveCamera& cam) {
+	Vector2i screenSize = Window::GetWindow()->GetScreenSize();
 
 	float aspect	= screenSize.x / screenSize.y;
 	float fov		= cam.GetFieldOfVision();
@@ -259,9 +259,9 @@ Vector3 CollisionDetection::Unproject(const Vector3& screenPos, const Camera& ca
 	return Vector3(transformed.x / transformed.w, transformed.y / transformed.w, transformed.z / transformed.w);
 }
 
-Ray CollisionDetection::BuildRayFromMouse(const Camera& cam) {
+Ray CollisionDetection::BuildRayFromMouse(const PerspectiveCamera& cam) {
 	Vector2 screenMouse = Window::GetMouse()->GetAbsolutePosition();
-	Vector2 screenSize	= Window::GetWindow()->GetScreenSize();
+	Vector2i screenSize	= Window::GetWindow()->GetScreenSize();
 
 	//We remove the y axis mouse position from height as OpenGL is 'upside down',
 	//and thinks the bottom left is the origin, instead of the top left!
@@ -348,12 +348,12 @@ So, to form the inverted matrix, we need the aspect and fov used to create the
 projection matrix of our scene, and the camera used to form the view matrix.
 
 */
-Vector3	CollisionDetection::UnprojectScreenPosition(Vector3 position, float aspect, float fov, const Camera &c) {
+Vector3	CollisionDetection::UnprojectScreenPosition(Vector3 position, float aspect, float fov, const PerspectiveCamera& c) {
 	//Create our inverted matrix! Note how that to get a correct inverse matrix,
 	//the order of matrices used to form it are inverted, too.
 	Matrix4 invVP = GenerateInverseView(c) * GenerateInverseProjection(aspect, fov, c.GetNearPlane(), c.GetFarPlane());
 
-	Vector2 screenSize = Window::GetWindow()->GetScreenSize();
+	Vector2i screenSize = Window::GetWindow()->GetScreenSize();
 
 	//Our mouse position x and y values are in 0 to screen dimensions range,
 	//so we need to turn them into the -1 to 1 axis range of clip space.

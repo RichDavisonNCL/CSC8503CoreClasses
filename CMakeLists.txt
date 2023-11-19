@@ -160,11 +160,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Compile definitions
 ################################################################################
 target_compile_definitions(${PROJECT_NAME} PRIVATE
-    ";"
     "UNICODE"
     "_UNICODE"
     "WIN32_LEAN_AND_MEAN"
     "_WINSOCK_DEPRECATED_NO_WARNINGS"
+	"NOMINMAX"
 )
 
 target_precompile_headers(${PROJECT_NAME} PRIVATE
@@ -186,6 +186,7 @@ target_precompile_headers(${PROJECT_NAME} PRIVATE
     "../NCLCoreClasses/Matrix2.h"
     "../NCLCoreClasses/Matrix3.h"
     "../NCLCoreClasses/Matrix4.h"
+	"../NCLCoreClasses/GameTimer.h"
 )
 
 ################################################################################

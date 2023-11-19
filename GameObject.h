@@ -11,7 +11,7 @@ namespace NCL::CSC8503 {
 
 	class GameObject	{
 	public:
-		GameObject(std::string name = "");
+		GameObject(const std::string& name = "");
 		~GameObject();
 
 		void SetBoundingVolume(CollisionVolume* vol) {
