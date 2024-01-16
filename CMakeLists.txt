@@ -1,84 +1,159 @@
-set(PROJECT_NAME GLTFLoader)
+set(PROJECT_NAME CSC8503CoreClasses)
 
 ################################################################################
 # Source groups
 ################################################################################
+
+set(Collision_Detection
+	"AABBVolume.h"
+	"CapsuleVolume.h"    
+	"CollisionDetection.h"
+	"CollisionVolume.h"
+	"OBBVolume.h"
+	"SATAlgorithm.h"
+	"Simplex.h"
+	"SphereVolume.h"
+
+	"CapsuleVolume.cpp"    
+	"CollisionDetection.cpp"
+	"SATAlgorithm.cpp"
+	"Simplex.cpp"
+)
+source_group("Collision Detection" FILES ${Collision_Detection})
+
+set(Physics
+	"Constraint.h"  
+	"OrientationConstraint.h" 
+	"PhysicsObject.h"
+	"PhysicsSystem.h"
+	"PositionConstraint.h" 
+	"Ray.h"
+	"State.h"
+
+	"OrientationConstraint.cpp" 
+	"PhysicsObject.cpp"
+	"PhysicsSystem.cpp"
+	"PositionConstraint.cpp" 
+)
+source_group("Physics" FILES ${Physics})
+
+set(Networking
+	"GameClient.h"   
+	"GameServer.h"
+	"GameClient.cpp"   
+	"GameServer.cpp"
+)
+source_group("Networking" FILES ${Networking})
+
+set(AI_Behaviour_Tree
+    "BehaviourAction.h"
+    "BehaviourNode.h"
+    "BehaviourNodeWithChildren.h"
+    "BehaviourSelector.h"
+    "BehaviourSelector.cpp"
+    "BehaviourSequence.h"
+    "BehaviourSequence.cpp"
+)
+source_group("AI\\Behaviour Trees" FILES ${AI_Behaviour_Tree})
+
+set(AI_Pushdown_Automata
+    "PushdownMachine.h"
+    "PushdownMachine.cpp"
+    "PushdownState.h"
+    "PushdownState.cpp"
+)
+source_group("AI\\Pushdown Automata" FILES ${AI_Pushdown_Automata})
+
+set(AI_State_Machine
+    "State.h"
+    "StateMachine.h"  
+    "StateMachine.cpp"
+    "StateMachine.h"
+    "StateTransition.h"
+)
+source_group("AI\\State Machine" FILES ${AI_State_Machine})
+
+set(AI_Pathfinding
+    "NavigationGrid.h"
+    "NavigationGrid.cpp"  
+    "NavigationMesh.cpp"
+    "NavigationMesh.h"
+    "NavigationMap.h"
+    "NavigationPath.h"
+)
+source_group("AI\\Pathfinding" FILES ${AI_Pathfinding})
+
 set(Header_Files
-    "GLTFLoader.h"
-    "json.hpp"
-    "tiny_gltf.h"
+	"Debug.h"
+	"GameObject.h"
+	"GameWorld.h"
+	"RenderObject.h"
+	"Transform.h"
 )
 source_group("Header Files" FILES ${Header_Files})
 
 set(Source_Files
-    "GLTFLoader.cpp"
+	"Debug.cpp"
+	"GameObject.cpp"
+	"GameWorld.cpp"
+	"RenderObject.cpp"
+	"Transform.cpp"
 )
 source_group("Source Files" FILES ${Source_Files})
 
 set(ALL_FILES
     ${Header_Files}
     ${Source_Files}
+	${Collision_Detection}
+	${Physics}
+	${Networking}
+    ${AI_Behaviour_Tree}
+    ${AI_Pushdown_Automata}
+    ${AI_State_Machine}
+    ${AI_Pathfinding}
 )
 
-set(GLTF_LOADER_DIR
-	${CMAKE_CURRENT_SOURCE_DIR}
-)
+set_source_files_properties(${ALL_FILES} PROPERTIES LANGUAGE CXX)
+
 
 ################################################################################
 # Target
 ################################################################################
 add_library(${PROJECT_NAME} STATIC ${ALL_FILES})
+#use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
+set(ROOT_NAMESPACE CSC8503CoreClasses)
 
-use_props(${PROJECT_NAME} "${CMAKE_CONFIGURATION_TYPES}" "${DEFAULT_CXX_PROPS}")
-set(ROOT_NAMESPACE GLTFLoader)
+target_precompile_headers(${PROJECT_NAME} PRIVATE    
+	<fstream>
+    <sstream>
+	<iostream>
+	<iosfwd>
+	
+    <memory>
+	<string>
+	<thread>
+    <filesystem>
+    <functional>
+	<assert.h>  
+	<chrono>	
+  
+    <unordered_set>
+	<set>
+    <vector>
+	<unordered_map>
+    <map> 
+	<stack> 
 
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    VS_GLOBAL_KEYWORD "Win32Proj"
+	
+	"../NCLCoreClasses/Vector2.h"
+    "../NCLCoreClasses/Vector3.h"
+    "../NCLCoreClasses/Vector4.h"
+    "../NCLCoreClasses/Quaternion.h"
+    "../NCLCoreClasses/Plane.h"
+    "../NCLCoreClasses/Matrix2.h"
+    "../NCLCoreClasses/Matrix3.h"
+    "../NCLCoreClasses/Matrix4.h"
 )
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    INTERPROCEDURAL_OPTIMIZATION_RELEASE "TRUE"
-)
-################################################################################
-# Compile definitions
-################################################################################
-target_compile_definitions(${PROJECT_NAME} PRIVATE
-    ";"
-    "UNICODE;"
-    "_UNICODE"
-)
 
-################################################################################
-# Compile and link options
-################################################################################
-if(MSVC)
-    target_compile_options(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:
-            /Oi;
-            /Gy
-        >
-        /permissive-;
-        /std:c++latest;
-        /sdl;
-        /W3;
-        ${DEFAULT_CXX_DEBUG_INFORMATION_FORMAT};
-        ${DEFAULT_CXX_EXCEPTION_HANDLING};
-        /Y-
-    )
-    target_link_options(${PROJECT_NAME} PRIVATE
-        $<$<CONFIG:Release>:
-            /OPT:REF;
-            /OPT:ICF
-        >
-    )
-endif()
-
-################################################################################
-# Dependencies
-################################################################################
-set(ADDITIONAL_LIBRARY_DEPENDENCIES
-    "$<$<CONFIG:Release>:"
-        "common"
-    ">"
-)
-target_link_libraries(${PROJECT_NAME} PUBLIC "${ADDITIONAL_LIBRARY_DEPENDENCIES}")
-
+include_directories("../NCLCoreClasses/")
+include_directories("./")

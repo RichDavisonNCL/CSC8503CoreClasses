@@ -1,5 +1,6 @@
 #pragma once
-#include <vector>
+#include <random>
+
 #include "Ray.h"
 #include "CollisionDetection.h"
 #include "QuadTree.h"
@@ -27,7 +28,7 @@ namespace NCL {
 			void AddConstraint(Constraint* c);
 			void RemoveConstraint(Constraint* c, bool andDelete = false);
 
-			Camera* GetMainCamera() const {
+			PerspectiveCamera& GetMainCamera()  {
 				return mainCamera;
 			}
 
@@ -53,15 +54,20 @@ namespace NCL {
 				std::vector<Constraint*>::const_iterator& first,
 				std::vector<Constraint*>::const_iterator& last) const;
 
+			int GetWorldStateID() const {
+				return worldStateCounter;
+			}
+
 		protected:
 			std::vector<GameObject*> gameObjects;
 			std::vector<Constraint*> constraints;
 
-			Camera* mainCamera;
+			PerspectiveCamera mainCamera;
 
 			bool shuffleConstraints;
 			bool shuffleObjects;
 			int		worldIDCounter;
+			int		worldStateCounter;
 		};
 	}
 }

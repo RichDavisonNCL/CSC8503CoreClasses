@@ -1,7 +1,4 @@
 #pragma once
-#include <thread>
-#include <atomic>
-
 #include "NetworkBase.h"
 
 namespace NCL {
@@ -17,8 +14,6 @@ namespace NCL {
 
 			void SetGameWorld(GameWorld &g);
 
-			//void ThreadedUpdate();
-
 			bool SendGlobalPacket(int msgID);
 			bool SendGlobalPacket(GamePacket& packet);
 
@@ -29,12 +24,6 @@ namespace NCL {
 			int			clientMax;
 			int			clientCount;
 			GameWorld*	gameWorld;
-
-			//std::atomic<bool> threadAlive;
-
-			
-
-			//std::thread updateThread;
 
 			int incomingDataRate;
 			int outgoingDataRate;

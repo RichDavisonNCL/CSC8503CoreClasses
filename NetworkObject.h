@@ -2,74 +2,74 @@
 #include "GameObject.h"
 #include "NetworkBase.h"
 #include "NetworkState.h"
-namespace NCL {
-	namespace CSC8503 {
-		struct FullPacket : public GamePacket {
-			int		objectID = -1;
-			NetworkState fullState;
 
-			FullPacket() {
-				type = Full_State;
-				size = sizeof(FullPacket) - sizeof(GamePacket);
-			}
-		};
+namespace NCL::CSC8503 {
+	class GameObject;
 
-		struct DeltaPacket : public GamePacket {
-			int		fullID		= -1;
-			int		objectID	= -1;
-			char	pos[3];
-			char	orientation[4];
+	struct FullPacket : public GamePacket {
+		int		objectID = -1;
+		NetworkState fullState;
 
-			DeltaPacket() {
-				type = Delta_State;
-				size = sizeof(DeltaPacket) - sizeof(GamePacket);
-			}
-		};
+		FullPacket() {
+			type = Full_State;
+			size = sizeof(FullPacket) - sizeof(GamePacket);
+		}
+	};
 
-		struct ClientPacket : public GamePacket {
-			int		lastID;
-			char	buttonstates[8];
+	struct DeltaPacket : public GamePacket {
+		int		fullID		= -1;
+		int		objectID	= -1;
+		char	pos[3];
+		char	orientation[4];
 
-			ClientPacket() {
-				size = sizeof(ClientPacket);
-			}
-		};
+		DeltaPacket() {
+			type = Delta_State;
+			size = sizeof(DeltaPacket) - sizeof(GamePacket);
+		}
+	};
 
-		class NetworkObject		{
-		public:
-			NetworkObject(GameObject& o, int id);
-			virtual ~NetworkObject();
+	struct ClientPacket : public GamePacket {
+		int		lastID;
+		char	buttonstates[8];
 
-			//Called by clients
-			virtual bool ReadPacket(GamePacket& p);
-			//Called by servers
-			virtual bool WritePacket(GamePacket** p, bool deltaFrame, int stateID);
+		ClientPacket() {
+			size = sizeof(ClientPacket);
+		}
+	};
 
-			void UpdateStateHistory(int minID);
+	class NetworkObject		{
+	public:
+		NetworkObject(GameObject& o, int id);
+		virtual ~NetworkObject();
 
-		protected:
+		//Called by clients
+		virtual bool ReadPacket(GamePacket& p);
+		//Called by servers
+		virtual bool WritePacket(GamePacket** p, bool deltaFrame, int stateID);
 
-			NetworkState& GetLatestNetworkState();
+		void UpdateStateHistory(int minID);
 
-			bool GetNetworkState(int frameID, NetworkState& state);
+	protected:
 
-			virtual bool ReadDeltaPacket(DeltaPacket &p);
-			virtual bool ReadFullPacket(FullPacket &p);
+		NetworkState& GetLatestNetworkState();
 
-			virtual bool WriteDeltaPacket(GamePacket**p, int stateID);
-			virtual bool WriteFullPacket(GamePacket**p);
+		bool GetNetworkState(int frameID, NetworkState& state);
 
-			GameObject& object;
+		virtual bool ReadDeltaPacket(DeltaPacket &p);
+		virtual bool ReadFullPacket(FullPacket &p);
 
-			NetworkState lastFullState;
+		virtual bool WriteDeltaPacket(GamePacket**p, int stateID);
+		virtual bool WriteFullPacket(GamePacket**p);
 
-			std::vector<NetworkState> stateHistory;
+		GameObject& object;
 
-			int deltaErrors;
-			int fullErrors;
+		NetworkState lastFullState;
 
-			int networkID;
-		};
-	}
+		std::vector<NetworkState> stateHistory;
+
+		int deltaErrors;
+		int fullErrors;
+
+		int networkID;
+	};
 }
-

@@ -1,6 +1,5 @@
 #pragma once
-#include "../CSC8503Common/GameWorld.h"
-#include <set>
+#include "GameWorld.h"
 
 namespace NCL {
 	namespace CSC8503 {

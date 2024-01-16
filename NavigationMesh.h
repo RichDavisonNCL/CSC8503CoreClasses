@@ -1,6 +1,6 @@
 #pragma once
 #include "NavigationMap.h"
-#include "../../Common/Plane.h"
+#include "Plane.h"
 #include <string>
 #include <vector>
 namespace NCL {

@@ -1,8 +1,8 @@
 #pragma once
-#include <winsock2.h>
-#include <enet/enet.h>
-#include <map>
-#include <string>
+//#include "./enet/enet.h"
+struct _ENetHost;
+struct _ENetPeer;
+struct _ENetEvent;
 
 enum BasicNetworkMessages {
 	None,
@@ -32,41 +32,6 @@ struct GamePacket {
 
 	int GetTotalSize() {
 		return sizeof(GamePacket) + size;
-	}
-};
-
-struct StringPacket : public GamePacket {
-	char	stringData[256];
-
-	StringPacket(const std::string& message) {
-		type		= BasicNetworkMessages::String_Message;
-		size		= (short)message.length();
-
-		memcpy(stringData, message.data(), size);
-	};
-
-	std::string GetStringFromData() {
-		std::string realString(stringData);
-		realString.resize(size);
-		return realString;
-	}
-};
-
-struct NewPlayerPacket : public GamePacket {
-	int playerID;
-	NewPlayerPacket(int p ) {
-		type		= BasicNetworkMessages::Player_Connected;
-		playerID	= p;
-		size		= sizeof(int);
-	}
-};
-
-struct PlayerDisconnectPacket : public GamePacket {
-	int playerID;
-	PlayerDisconnectPacket(int p) {
-		type		= BasicNetworkMessages::Player_Disconnected;
-		playerID	= p;
-		size		= sizeof(int);
 	}
 };
 
@@ -106,7 +71,7 @@ protected:
 		return true;
 	}
 
-	ENetHost* netHandle;
+	_ENetHost* netHandle;
 
 	std::multimap<int, PacketReceiver*> packetHandlers;
 };

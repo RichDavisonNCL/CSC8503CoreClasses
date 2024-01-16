@@ -1,7 +1,4 @@
 #pragma once
-#include "../../Common/Vector3.h"
-#include "../../Common/Matrix3.h"
-
 using namespace NCL::Maths;
 
 namespace NCL {
@@ -80,7 +77,6 @@ namespace NCL {
 			Vector3 linearVelocity;
 			Vector3 force;
 			
-
 			//angular stuff
 			Vector3 angularVelocity;
 			Vector3 torque;

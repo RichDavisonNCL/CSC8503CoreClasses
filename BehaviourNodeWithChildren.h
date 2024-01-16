@@ -1,6 +1,5 @@
 #pragma once
 #include "BehaviourNode.h"
-#include <vector>
 
 class BehaviourNodeWithChildren : public BehaviourNode	{
 public:

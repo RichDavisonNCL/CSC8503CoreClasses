@@ -1,13 +1,13 @@
 #pragma once
-#include "../../Common/Matrix4.h"
-#include "../../Common/TextureBase.h"
-#include "../../Common/ShaderBase.h"
-#include "../../Common/Vector4.h"
+#include "Texture.h"
+#include "Shader.h"
+#include "Mesh.h"
+
+#include "Buffer.h"
 
 namespace NCL {
 	using namespace NCL::Rendering;
 
-	class MeshGeometry;
 	namespace CSC8503 {
 		class Transform;
 		using namespace Maths;
@@ -15,18 +15,34 @@ namespace NCL {
 		class RenderObject
 		{
 		public:
-			RenderObject(Transform* parentTransform, MeshGeometry* mesh, TextureBase* tex, ShaderBase* shader);
-			~RenderObject();
+			RenderObject(Transform* parentTransform, Mesh* mesh, Texture* tex, Shader* shader) {
+				buffer = nullptr;
 
-			void SetDefaultTexture(TextureBase* t) {
+				this->transform = parentTransform;
+				this->mesh = mesh;
+				this->texture = tex;
+				this->shader = shader;
+				this->colour = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+			}
+			~RenderObject() {}
+
+			void SetDefaultTexture(Texture* t) {
 				texture = t;
 			}
 
-			TextureBase* GetDefaultTexture() const {
+			Buffer* GetGPUBuffer() const {
+				return buffer;
+			}
+
+			void SetGPUBuffer(Buffer* b) {
+				buffer = b;
+			}
+
+			Texture* GetDefaultTexture() const {
 				return texture;
 			}
 
-			MeshGeometry*	GetMesh() const {
+			Mesh*	GetMesh() const {
 				return mesh;
 			}
 
@@ -34,7 +50,7 @@ namespace NCL {
 				return transform;
 			}
 
-			ShaderBase*		GetShader() const {
+			Shader*		GetShader() const {
 				return shader;
 			}
 
@@ -47,9 +63,10 @@ namespace NCL {
 			}
 
 		protected:
-			MeshGeometry*	mesh;
-			TextureBase*	texture;
-			ShaderBase*		shader;
+			Buffer*			buffer;
+			Mesh*			mesh;
+			Texture*		texture;
+			Shader*			shader;
 			Transform*		transform;
 			Vector4			colour;
 		};

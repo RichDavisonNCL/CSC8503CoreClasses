@@ -1,7 +1,9 @@
 #pragma once
 #include "CollisionVolume.h"
-#include "../../Common/Vector3.h"
+#include "Vector3.h"
+
 namespace NCL {
+	using namespace NCL::Maths;
 	class AABBVolume : CollisionVolume
 	{
 	public:

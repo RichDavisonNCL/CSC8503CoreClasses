@@ -1,6 +1,5 @@
 #pragma once
-#include "../../Common/Vector3.h"
-#include "../../Common/Vector4.h"
+
 namespace NCL {
 	namespace Maths {
 		class Simplex

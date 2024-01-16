@@ -2,18 +2,17 @@
 #include "GameObject.h"
 #include "Constraint.h"
 #include "CollisionDetection.h"
-#include "../../Common/Camera.h"
-#include <algorithm>
+#include "Camera.h"
+
 
 using namespace NCL;
 using namespace NCL::CSC8503;
 
 GameWorld::GameWorld()	{
-	mainCamera = new Camera();
-
 	shuffleConstraints	= false;
 	shuffleObjects		= false;
-	worldIDCounter = 0;
+	worldIDCounter		= 0;
+	worldStateCounter	= 0;
 }
 
 GameWorld::~GameWorld()	{
@@ -22,7 +21,8 @@ GameWorld::~GameWorld()	{
 void GameWorld::Clear() {
 	gameObjects.clear();
 	constraints.clear();
-	worldIDCounter = 0;
+	worldIDCounter		= 0;
+	worldStateCounter	= 0;
 }
 
 void GameWorld::ClearAndErase() {
@@ -38,6 +38,7 @@ void GameWorld::ClearAndErase() {
 void GameWorld::AddGameObject(GameObject* o) {
 	gameObjects.emplace_back(o);
 	o->SetWorldID(worldIDCounter++);
+	worldStateCounter++;
 }
 
 void GameWorld::RemoveGameObject(GameObject* o, bool andDelete) {
@@ -45,6 +46,7 @@ void GameWorld::RemoveGameObject(GameObject* o, bool andDelete) {
 	if (andDelete) {
 		delete o;
 	}
+	worldStateCounter++;
 }
 
 void GameWorld::GetObjectIterators(
@@ -62,12 +64,17 @@ void GameWorld::OperateOnContents(GameObjectFunc f) {
 }
 
 void GameWorld::UpdateWorld(float dt) {
+	auto rng = std::default_random_engine{};
+
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+	std::default_random_engine e(seed);
+
 	if (shuffleObjects) {
-		std::random_shuffle(gameObjects.begin(), gameObjects.end());
+		std::shuffle(gameObjects.begin(), gameObjects.end(), e);
 	}
 
 	if (shuffleConstraints) {
-		std::random_shuffle(constraints.begin(), constraints.end());
+		std::shuffle(constraints.begin(), constraints.end(), e);
 	}
 }
 

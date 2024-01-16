@@ -1,7 +1,7 @@
 #include "Simplex.h"
-#include "../../Common/Plane.h"
+#include "Plane.h"
 #include "Debug.h"
-#include "../../Common/Maths.h"
+#include "Maths.h"
 using namespace NCL::Maths;
 
 Simplex::Simplex()
@@ -201,11 +201,11 @@ Vector3 Simplex::BarycentricTriangleWeighting(const Vector3& a, const Vector3&b,
 
 	Vector3 planePoint = p.ProjectPointOntoPlane(Vector3());
 
-	float triArea	= abs(Maths::CrossAreaOfTri(a, b, c));
+	float triArea	= abs(Maths::AreaofTri3D(a, b, c));
 
-	float alpha		= abs(Maths::CrossAreaOfTri(b, c, planePoint));
-	float beta		= abs(Maths::CrossAreaOfTri(a, c, planePoint));
-	float gamma		= abs(Maths::CrossAreaOfTri(a, b, planePoint));
+	float alpha		= abs(Maths::AreaofTri3D(b, c, planePoint));
+	float beta		= abs(Maths::AreaofTri3D(a, c, planePoint));
+	float gamma		= abs(Maths::AreaofTri3D(a, b, planePoint));
 
 	float totalArea = 1.0f / triArea;
 
