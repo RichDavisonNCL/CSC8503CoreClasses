@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "Mesh.h"
+#include "MeshAnimation.h"
 
 #include "Buffer.h"
 
@@ -15,14 +16,15 @@ namespace NCL {
 		class RenderObject
 		{
 		public:
-			RenderObject(Transform* parentTransform, Mesh* mesh, Texture* tex, Shader* shader) {
-				buffer = nullptr;
+			RenderObject(Transform* inTransform, Mesh* inMesh, Texture* inTex, Shader* inShader) {
+				buffer	= nullptr;
+				anim	= nullptr;
 
-				this->transform = parentTransform;
-				this->mesh = mesh;
-				this->texture = tex;
-				this->shader = shader;
-				this->colour = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+				transform = inTransform;
+				mesh = inMesh;
+				texture = inTex;
+				shader = inShader;
+				colour = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 			}
 			~RenderObject() {}
 
@@ -62,6 +64,14 @@ namespace NCL {
 				return colour;
 			}
 
+			void SetAnimation(MeshAnimation& inAnim);
+
+			void UpdateAnimation(float dt);
+
+			std::vector<Matrix4>& GetSkeleton() {
+				return skeleton;
+			}
+
 		protected:
 			Buffer*			buffer;
 			Mesh*			mesh;
@@ -69,6 +79,12 @@ namespace NCL {
 			Shader*			shader;
 			Transform*		transform;
 			Vector4			colour;
+
+			MeshAnimation*	anim;
+
+			std::vector<Matrix4> skeleton;
+			float	animTime		= 0.0f;
+			int currentAnimFrame	= 0;
 		};
 	}
 }

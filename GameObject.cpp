@@ -23,6 +23,12 @@ GameObject::~GameObject()	{
 	delete networkObject;
 }
 
+void GameObject::Update(float dt) {
+	if (renderObject) {
+		renderObject->UpdateAnimation(dt);
+	}
+}
+
 bool GameObject::GetBroadphaseAABB(Vector3&outSize) const {
 	if (!boundingVolume) {
 		return false;
