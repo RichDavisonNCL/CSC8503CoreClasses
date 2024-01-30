@@ -17,7 +17,7 @@ namespace NCL {
 		class GameWorld	{
 		public:
 			GameWorld();
-			~GameWorld();
+			virtual ~GameWorld();
 
 			void Clear();
 			void ClearAndErase();

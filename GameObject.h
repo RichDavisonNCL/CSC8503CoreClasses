@@ -12,7 +12,7 @@ namespace NCL::CSC8503 {
 	class GameObject	{
 	public:
 		GameObject(const std::string& name = "");
-		~GameObject();
+		virtual ~GameObject();
 
 		void SetBoundingVolume(CollisionVolume* vol) {
 			boundingVolume = vol;

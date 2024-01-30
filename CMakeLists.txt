@@ -145,14 +145,10 @@ target_precompile_headers(${PROJECT_NAME} PRIVATE
 	<stack> 
 
 	
-	"../NCLCoreClasses/Vector2.h"
-    "../NCLCoreClasses/Vector3.h"
-    "../NCLCoreClasses/Vector4.h"
+	"../NCLCoreClasses/Vector.h"
     "../NCLCoreClasses/Quaternion.h"
     "../NCLCoreClasses/Plane.h"
-    "../NCLCoreClasses/Matrix2.h"
-    "../NCLCoreClasses/Matrix3.h"
-    "../NCLCoreClasses/Matrix4.h"
+    "../NCLCoreClasses/Matrix.h"
 )
 
 include_directories("../NCLCoreClasses/")

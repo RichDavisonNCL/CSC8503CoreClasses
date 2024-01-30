@@ -179,5 +179,5 @@ GridNode*  NavigationGrid::RemoveBestNode(std::vector<GridNode*>& list) const {
 }
 
 float NavigationGrid::Heuristic(GridNode* hNode, GridNode* endNode) const {
-	return (hNode->position - endNode->position).Length();
+	return Vector::Length(hNode->position - endNode->position);
 }

@@ -33,7 +33,7 @@ void PhysicsObject::AddForceAtPosition(const Vector3& addedForce, const Vector3&
 	Vector3 localPos = position - transform->GetPosition();
 
 	force  += addedForce;
-	torque += Vector3::Cross(localPos, addedForce);
+	torque += Vector::Cross(localPos, addedForce);
 }
 
 void PhysicsObject::AddTorque(const Vector3& addedTorque) {
@@ -48,7 +48,7 @@ void PhysicsObject::ClearForces() {
 void PhysicsObject::InitCubeInertia() {
 	Vector3 dimensions	= transform->GetScale();
 
-	Vector3 fullWidth = dimensions * 2;
+	Vector3 fullWidth = dimensions * 2.0f;
 
 	Vector3 dimsSqr		= fullWidth * fullWidth;
 
@@ -58,7 +58,7 @@ void PhysicsObject::InitCubeInertia() {
 }
 
 void PhysicsObject::InitSphereInertia() {
-	float radius	= transform->GetScale().GetMaxElement();
+	float radius	= Vector::GetMaxElement(transform->GetScale());
 	float i			= 2.5f * inverseMass / (radius*radius);
 
 	inverseInertia	= Vector3(i, i, i);
@@ -67,8 +67,8 @@ void PhysicsObject::InitSphereInertia() {
 void PhysicsObject::UpdateInertiaTensor() {
 	Quaternion q = transform->GetOrientation();
 	
-	Matrix3 invOrientation	= Matrix3(q.Conjugate());
-	Matrix3 orientation		= Matrix3(q);
+	Matrix3 invOrientation	= Quaternion::RotationMatrix<Matrix3>(q.Conjugate());
+	Matrix3 orientation		= Quaternion::RotationMatrix<Matrix3>(q);
 
-	inverseInteriaTensor = orientation * Matrix3::Scale(inverseInertia) *invOrientation;
+	inverseInteriaTensor = orientation * Matrix::Scale3x3(inverseInertia) *invOrientation;
 }

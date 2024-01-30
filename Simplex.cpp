@@ -270,7 +270,7 @@ Vector3 Simplex::ClosestPointToTetrahedron(Vector3* realA, Vector3* realB) {
 
 		Vector3 closestPoint = a * barycentrics.x + b * barycentrics.y + c * barycentrics.z;
 
-		float l = closestPoint.Length();
+		float l = Vector::Length(closestPoint);
 
 		if (l < bestDist) {
 			currentBestBarycentric	= barycentrics;
@@ -294,22 +294,22 @@ Vector3 Simplex::closestPointToTri(const Vector3& a, const Vector3&b, const Vect
 	Vector3 ab = b - a;
 	Vector3 ac = c - a;
 
-	float aAB = Vector3::Dot(ab, -a);
-	float aAC = Vector3::Dot(ac, -a);
+	float aAB = Vector::Dot(ab, -a);
+	float aAC = Vector::Dot(ac, -a);
 
 	if (aAB < 0.0f && aAC < 0.0f) { //origin is in voronoi region of vertex A
 		return Vector3(1, 0, 0);
 	}
 
-	float bAB = Vector3::Dot(ab, -b);
-	float bAC = Vector3::Dot(ac, -b);
+	float bAB = Vector::Dot(ab, -b);
+	float bAC = Vector::Dot(ac, -b);
 
 	if (bAB >= 0.0f && bAC <= bAB) { //origin is in voronoi region of vertex B
 		return Vector3(0, 1, 0);
 	}
 
-	float cAB = Vector3::Dot(ab, -c);
-	float cAC = Vector3::Dot(ac, -c);
+	float cAB = Vector::Dot(ab, -c);
+	float cAC = Vector::Dot(ac, -c);
 
 	if (cAC > 0.0f && cAB <= cAC) { //origin is in voronoi region of vertex C
 		return Vector3(0, 0, 1);
@@ -335,8 +335,8 @@ Vector3 Simplex::closestPointToTri(const Vector3& a, const Vector3&b, const Vect
 	if (pBA.GetDistance() > 0) { //outside of edge AB
 		Vector3 edgePoint = pBA.ProjectPointOntoPlane(planePoint); //point along AB
 
-		float bLength = (edgePoint - b).Length();
-		float aLength = (b - a).Length();
+		float bLength = Vector::Length(edgePoint - b);
+		float aLength = Vector::Length(b - a);
 
 		float ratio = bLength / aLength;
 		
@@ -347,8 +347,8 @@ Vector3 Simplex::closestPointToTri(const Vector3& a, const Vector3&b, const Vect
 	if (pBC.GetDistance() > 0) { //outside of edge BC
 		Vector3 edgePoint = pBC.ProjectPointOntoPlane(planePoint); //point along BC
 
-		float bLength = (edgePoint - c).Length();
-		float aLength = (c - b).Length();
+		float bLength = Vector::Length(edgePoint - c);
+		float aLength = Vector::Length(c - b);
 
 		float ratio = bLength / aLength;
 
@@ -359,8 +359,8 @@ Vector3 Simplex::closestPointToTri(const Vector3& a, const Vector3&b, const Vect
 	if (pCA.GetDistance() > 0) { //outside of edge AC
 		Vector3 edgePoint = pCA.ProjectPointOntoPlane(planePoint); //point along AC
 
-		float bLength = (edgePoint - a).Length();
-		float aLength = (a - c).Length();
+		float bLength = Vector::Length(edgePoint - a);
+		float aLength = Vector::Length(a - c);
 
 		float ratio = bLength / aLength;
 
@@ -382,11 +382,11 @@ Vector3 Simplex::ClosestPoint(Vector3* realA, Vector3* realB) {
 		Vector3 va = GetVertex(0);
 
 		Vector3 ba = GetVertex(1) - va;
-		Vector3 ban = ba.Normalised();
+		Vector3 ban = Vector::Normalise(ba);
 		
 		Vector3 ca = -va;
 
-		float p = Vector3::Dot(ban, ca.Normalised());
+		float p = Vector::Dot(ban, Vector::Normalise(ca));
 
 		return va + (ba * p);
 	}

@@ -41,13 +41,13 @@ void Debug::DrawLine(const Vector3& startpoint, const Vector3& endpoint, const V
 
 void Debug::DrawAxisLines(const Matrix4& modelMatrix, float scaleBoost, float time) {
 	Matrix4 local = modelMatrix;
-	local.SetPositionVector({ 0, 0, 0 });
+	local.SetColumn(3, { 0.0f, 0.0f, 0.0f, 1.0f });
 
 	Vector3 fwd = local * Vector4(0, 0, -1, 1.0f);
 	Vector3 up = local * Vector4(0, 1, 0, 1.0f);
 	Vector3 right = local * Vector4(1, 0, 0, 1.0f);
 
-	Vector3 worldPos = modelMatrix.GetPositionVector();
+	Vector3 worldPos = modelMatrix.GetColumn(3);
 
 	DrawLine(worldPos, worldPos + (right * scaleBoost), Debug::RED, time);
 	DrawLine(worldPos, worldPos + (up * scaleBoost), Debug::GREEN, time);

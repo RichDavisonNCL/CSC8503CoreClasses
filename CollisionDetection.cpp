@@ -10,7 +10,7 @@
 using namespace NCL;
 
 bool CollisionDetection::RayPlaneIntersection(const Ray&r, const Plane&p, RayCollision& collisions) {
-	float ln = Vector3::Dot(p.GetNormal(), r.GetDirection());
+	float ln = Vector::Dot(p.GetNormal(), r.GetDirection());
 
 	if (ln == 0.0f) {
 		return false; //direction vectors are perpendicular!
@@ -20,7 +20,7 @@ bool CollisionDetection::RayPlaneIntersection(const Ray&r, const Plane&p, RayCol
 
 	Vector3 pointDir = planePoint - r.GetPosition();
 
-	float d = Vector3::Dot(pointDir, p.GetNormal()) / ln;
+	float d = Vector::Dot(pointDir, p.GetNormal()) / ln;
 
 	collisions.collidedAt = r.GetPosition() + (r.GetDirection() * d);
 
@@ -198,9 +198,9 @@ Matrix4 GenerateInverseView(const Camera &c) {
 	Vector3 position = c.GetPosition();
 
 	Matrix4 iview =
-		Matrix4::Translation(position) *
-		Matrix4::Rotation(-yaw, Vector3(0, -1, 0)) *
-		Matrix4::Rotation(-pitch, Vector3(-1, 0, 0));
+		Matrix::Translation(position) *
+		Matrix::Rotation(-yaw, Vector3(0, -1, 0)) *
+		Matrix::Rotation(-pitch, Vector3(-1, 0, 0));
 
 	return iview;
 }
@@ -228,7 +228,7 @@ Matrix4 GenerateInverseProjection(float aspect, float nearPlane, float farPlane,
 Vector3 CollisionDetection::Unproject(const Vector3& screenPos, const PerspectiveCamera& cam) {
 	Vector2i screenSize = Window::GetWindow()->GetScreenSize();
 
-	float aspect	= screenSize.x / screenSize.y;
+	float aspect	= Window::GetWindow()->GetScreenAspect();
 	float fov		= cam.GetFieldOfVision();
 	float nearPlane = cam.GetNearPlane();
 	float farPlane  = cam.GetFarPlane();
@@ -236,8 +236,6 @@ Vector3 CollisionDetection::Unproject(const Vector3& screenPos, const Perspectiv
 	//Create our inverted matrix! Note how that to get a correct inverse matrix,
 	//the order of matrices used to form it are inverted, too.
 	Matrix4 invVP = GenerateInverseView(cam) * GenerateInverseProjection(aspect, fov, nearPlane, farPlane);
-
-	Matrix4 proj  = cam.BuildProjectionMatrix(aspect);
 
 	//Our mouse position x and y values are in 0 to screen dimensions range,
 	//so we need to turn them into the -1 to 1 axis range of clip space.
@@ -281,7 +279,7 @@ Ray CollisionDetection::BuildRayFromMouse(const PerspectiveCamera& cam) {
 	Vector3 b = Unproject(farPos, cam);
 	Vector3 c = b - a;
 
-	c.Normalise();
+	c = Vector::Normalise(c);
 
 	return Ray(cam.GetPosition(), c);
 }
@@ -322,9 +320,9 @@ Matrix4 CollisionDetection::GenerateInverseView(const PerspectiveCamera&c) {
 	Vector3 position = c.GetPosition();
 
 	Matrix4 iview =
-		Matrix4::Translation(position) *
-		Matrix4::Rotation(yaw, Vector3(0, 1, 0)) *
-		Matrix4::Rotation(pitch, Vector3(1, 0, 0));
+		Matrix::Translation(position) *
+		Matrix::Rotation(yaw, Vector3(0, 1, 0)) *
+		Matrix::Rotation(pitch, Vector3(1, 0, 0));
 
 	return iview;
 }

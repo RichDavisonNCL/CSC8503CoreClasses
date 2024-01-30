@@ -49,8 +49,10 @@ void GameObject::UpdateBroadphaseAABB() {
 		broadphaseAABB = Vector3(r, r, r);
 	}
 	else if (boundingVolume->type == VolumeType::OBB) {
-		Matrix3 mat = Matrix3(transform.GetOrientation());
-		mat = mat.Absolute();
+		Matrix3 mat = Quaternion::RotationMatrix<Matrix3>(transform.GetOrientation());
+
+		mat = Matrix::Absolute(mat);
+
 		Vector3 halfSizes = ((OBBVolume&)*boundingVolume).GetHalfDimensions();
 		broadphaseAABB = mat * halfSizes;
 	}

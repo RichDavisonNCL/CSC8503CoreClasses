@@ -41,7 +41,7 @@ namespace NCL {
 				Vector3 ba = b - a;
 				Vector3 ca = c - a;
 
-				Vector3 n = Vector3::Cross(ba, ca).Normalised();
+				Vector3 n = Vector::Normalise(Vector::Cross(ba, ca));
 
 				return n;
 			}
