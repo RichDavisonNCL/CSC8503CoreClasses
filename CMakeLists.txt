@@ -10,14 +10,9 @@ set(Collision_Detection
 	"CollisionDetection.h"
 	"CollisionVolume.h"
 	"OBBVolume.h"
-	"SATAlgorithm.h"
-	"Simplex.h"
 	"SphereVolume.h"
-
 	"CapsuleVolume.cpp"    
 	"CollisionDetection.cpp"
-	"SATAlgorithm.cpp"
-	"Simplex.cpp"
 )
 source_group("Collision Detection" FILES ${Collision_Detection})
 
@@ -29,7 +24,6 @@ set(Physics
 	"PositionConstraint.h" 
 	"Ray.h"
 	"State.h"
-
 	"OrientationConstraint.cpp" 
 	"PhysicsObject.cpp"
 	"PhysicsSystem.cpp"
