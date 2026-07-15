@@ -21,15 +21,12 @@ namespace NCL {
 
 		class Ray {
 		public:
-			Ray(Vector3 position, Vector3 direction) {
-				this->position  = position;
-				this->direction = direction;
+			Ray(Vector3 inPos, Vector3 inDirection) : position(inPos), direction(inDirection) {
 			}
 			~Ray(void) {}
 
-			Vector3 GetPosition() const {return position;	}
-
-			Vector3 GetDirection() const {return direction;	}
+			Vector3 GetPosition()	const {return position;	}
+			Vector3 GetDirection()	const {return direction;}
 
 		protected:
 			Vector3 position;	//World space position

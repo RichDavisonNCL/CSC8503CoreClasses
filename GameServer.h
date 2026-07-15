@@ -7,7 +7,7 @@ namespace NCL {
 		class GameServer : public NetworkBase {
 		public:
 			GameServer(int onPort, int maxClients);
-			~GameServer();
+			virtual ~GameServer();
 
 			bool Initialise();
 			void Shutdown();

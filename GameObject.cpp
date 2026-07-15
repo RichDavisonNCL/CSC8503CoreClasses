@@ -6,7 +6,7 @@
 
 using namespace NCL::CSC8503;
 
-GameObject::GameObject(string objectName)	{
+GameObject::GameObject(const std::string& objectName)	{
 	name			= objectName;
 	worldID			= -1;
 	isActive		= true;
@@ -21,6 +21,12 @@ GameObject::~GameObject()	{
 	delete physicsObject;
 	delete renderObject;
 	delete networkObject;
+}
+
+void GameObject::Update(float dt) {
+	if (renderObject) {
+		renderObject->UpdateAnimation(dt);
+	}
 }
 
 bool GameObject::GetBroadphaseAABB(Vector3&outSize) const {
@@ -43,8 +49,10 @@ void GameObject::UpdateBroadphaseAABB() {
 		broadphaseAABB = Vector3(r, r, r);
 	}
 	else if (boundingVolume->type == VolumeType::OBB) {
-		Matrix3 mat = Matrix3(transform.GetOrientation());
-		mat = mat.Absolute();
+		Matrix3 mat = Quaternion::RotationMatrix<Matrix3>(transform.GetOrientation());
+
+		mat = Matrix::Absolute(mat);
+
 		Vector3 halfSizes = ((OBBVolume&)*boundingVolume).GetHalfDimensions();
 		broadphaseAABB = mat * halfSizes;
 	}

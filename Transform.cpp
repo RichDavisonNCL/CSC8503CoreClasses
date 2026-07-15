@@ -12,9 +12,9 @@ Transform::~Transform()	{
 
 void Transform::UpdateMatrix() {
 	matrix =
-		Matrix4::Translation(position) *
-		Matrix4(orientation) *
-		Matrix4::Scale(scale);
+		Matrix::Translation(position) *
+		Quaternion::RotationMatrix<Matrix4>(orientation) *
+		Matrix::Scale(scale);
 }
 
 Transform& Transform::SetPosition(const Vector3& worldPos) {

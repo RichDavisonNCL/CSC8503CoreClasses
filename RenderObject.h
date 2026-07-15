@@ -1,39 +1,57 @@
 #pragma once
-#include "TextureBase.h"
-#include "ShaderBase.h"
+#include "Texture.h"
+#include "Shader.h"
+#include "Mesh.h"
+#include "MeshAnimation.h"
+
+#include "Buffer.h"
 
 namespace NCL {
 	using namespace NCL::Rendering;
 
-	class MeshGeometry;
 	namespace CSC8503 {
 		class Transform;
 		using namespace Maths;
 
+		enum class MaterialType {
+			Opaque,
+			Transparent,
+			Effect
+		};
+
+		struct GameTechMaterial
+		{
+			MaterialType	type	= MaterialType::Opaque;
+			Texture* diffuseTex		= nullptr;
+			Texture* bumpTex		= nullptr;
+		};
+
 		class RenderObject
 		{
 		public:
-			RenderObject(Transform* parentTransform, MeshGeometry* mesh, TextureBase* tex, ShaderBase* shader);
-			~RenderObject();
+			RenderObject(Transform& parentTransform, Mesh* inMesh, const GameTechMaterial& material);
+			~RenderObject() {}
 
-			void SetDefaultTexture(TextureBase* t) {
-				texture = t;
+			Buffer* GetGPUBuffer() const {
+				return buffer;
 			}
 
-			TextureBase* GetDefaultTexture() const {
-				return texture;
+			void SetGPUBuffer(Buffer* b) {
+				buffer = b;
 			}
 
-			MeshGeometry*	GetMesh() const {
+			GameTechMaterial GetMaterial() const
+			{
+				return material;
+			}
+
+			Mesh*	GetMesh() const {
 				return mesh;
 			}
 
-			Transform*		GetTransform() const {
+			Transform& GetTransform() const
+			{
 				return transform;
-			}
-
-			ShaderBase*		GetShader() const {
-				return shader;
 			}
 
 			void SetColour(const Vector4& c) {
@@ -44,12 +62,26 @@ namespace NCL {
 				return colour;
 			}
 
+			void SetAnimation(MeshAnimation& inAnim);
+
+			void UpdateAnimation(float dt);
+
+			std::vector<Matrix4>& GetSkeleton() {
+				return skeleton;
+			}
+
 		protected:
-			MeshGeometry*	mesh;
-			TextureBase*	texture;
-			ShaderBase*		shader;
-			Transform*		transform;
-			Vector4			colour;
+			Transform&			transform;
+			GameTechMaterial	material;
+			Mesh*				mesh;
+			Buffer*				buffer;
+	
+			Vector4				colour;
+			MeshAnimation*		anim;
+
+			std::vector<Matrix4> skeleton;
+			float	animTime		= 0.0f;
+			int currentAnimFrame	= 0;
 		};
 	}
 }

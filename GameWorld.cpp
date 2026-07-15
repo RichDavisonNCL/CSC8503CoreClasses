@@ -9,8 +9,6 @@ using namespace NCL;
 using namespace NCL::CSC8503;
 
 GameWorld::GameWorld()	{
-	mainCamera = new Camera();
-
 	shuffleConstraints	= false;
 	shuffleObjects		= false;
 	worldIDCounter		= 0;
@@ -70,6 +68,10 @@ void GameWorld::UpdateWorld(float dt) {
 
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 	std::default_random_engine e(seed);
+
+	for (GameObject* g : gameObjects) {
+		g->Update(dt);
+	}
 
 	if (shuffleObjects) {
 		std::shuffle(gameObjects.begin(), gameObjects.end(), e);

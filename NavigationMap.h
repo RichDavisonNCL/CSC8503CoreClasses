@@ -1,5 +1,4 @@
 #pragma once
-#include "Vector3.h"
 #include "NavigationPath.h"
 namespace NCL {
 	using namespace NCL::Maths;

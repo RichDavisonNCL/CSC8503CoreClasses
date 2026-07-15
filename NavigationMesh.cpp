@@ -47,7 +47,7 @@ NavigationMesh::NavigationMesh(const std::string&filename)
 			allVerts[tri->indices[1]],
 			allVerts[tri->indices[2]]);
 
-		tri->area = Maths::CrossAreaOfTri(allVerts[tri->indices[0]], allVerts[tri->indices[1]], allVerts[tri->indices[2]]);
+		tri->area = Maths::AreaofTri3D(allVerts[tri->indices[0]], allVerts[tri->indices[1]], allVerts[tri->indices[2]]);
 	}
 	for (int i = 0; i < allTris.size(); ++i) {
 		NavTri* tri = &allTris[i];
@@ -81,9 +81,9 @@ const NavigationMesh::NavTri* NavigationMesh::GetTriForPosition(const Vector3& p
 	for (const NavTri& t : allTris) {
 		Vector3 planePoint = t.triPlane.ProjectPointOntoPlane(pos);
 
-		float ta = Maths::CrossAreaOfTri(allVerts[t.indices[0]], allVerts[t.indices[1]], planePoint);
-		float tb = Maths::CrossAreaOfTri(allVerts[t.indices[1]], allVerts[t.indices[2]], planePoint);
-		float tc = Maths::CrossAreaOfTri(allVerts[t.indices[2]], allVerts[t.indices[0]], planePoint);
+		float ta = Maths::AreaofTri3D(allVerts[t.indices[0]], allVerts[t.indices[1]], planePoint);
+		float tb = Maths::AreaofTri3D(allVerts[t.indices[1]], allVerts[t.indices[2]], planePoint);
+		float tc = Maths::AreaofTri3D(allVerts[t.indices[2]], allVerts[t.indices[0]], planePoint);
 
 		float areaSum = ta + tb + tc;
 

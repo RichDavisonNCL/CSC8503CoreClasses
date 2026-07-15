@@ -17,7 +17,7 @@ namespace NCL {
 		class GameWorld	{
 		public:
 			GameWorld();
-			~GameWorld();
+			virtual ~GameWorld();
 
 			void Clear();
 			void ClearAndErase();
@@ -28,7 +28,7 @@ namespace NCL {
 			void AddConstraint(Constraint* c);
 			void RemoveConstraint(Constraint* c, bool andDelete = false);
 
-			Camera* GetMainCamera() const {
+			PerspectiveCamera& GetMainCamera()  {
 				return mainCamera;
 			}
 
@@ -58,16 +58,39 @@ namespace NCL {
 				return worldStateCounter;
 			}
 
+			void SetSunPosition(const Vector3& pos)
+			{
+				sunPosition = pos;
+			}
+
+			Vector3 GetSunPosition() const
+			{
+				return sunPosition;
+			}
+
+			void SetSunColour(const Vector3& col)
+			{
+				sunColour = col;
+			}
+
+			Vector3 GetSunColour() const
+			{
+				return sunColour;
+			}
+
 		protected:
 			std::vector<GameObject*> gameObjects;
 			std::vector<Constraint*> constraints;
 
-			Camera* mainCamera;
+			PerspectiveCamera mainCamera;
 
 			bool shuffleConstraints;
 			bool shuffleObjects;
 			int		worldIDCounter;
 			int		worldStateCounter;
+
+			Vector3 sunPosition;
+			Vector3 sunColour;
 		};
 	}
 }

@@ -11,8 +11,8 @@ namespace NCL::CSC8503 {
 
 	class GameObject	{
 	public:
-		GameObject(std::string name = "");
-		~GameObject();
+		GameObject(const std::string& name = "");
+		virtual ~GameObject();
 
 		void SetBoundingVolume(CollisionVolume* vol) {
 			boundingVolume = vol;
@@ -61,6 +61,8 @@ namespace NCL::CSC8503 {
 		virtual void OnCollisionEnd(GameObject* otherObject) {
 			//std::cout << "OnCollisionEnd event occured!\n";
 		}
+
+		virtual void Update(float dt);
 
 		bool GetBroadphaseAABB(Vector3&outsize) const;
 
