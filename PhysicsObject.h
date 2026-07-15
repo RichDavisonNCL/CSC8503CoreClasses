@@ -9,7 +9,7 @@ namespace NCL {
 
 		class PhysicsObject	{
 		public:
-			PhysicsObject(Transform* parentTransform, const CollisionVolume* parentVolume);
+			PhysicsObject(Transform& parentTransform, const CollisionVolume* parentVolume);
 			~PhysicsObject();
 
 			Vector3 GetLinearVelocity() const {
@@ -67,7 +67,7 @@ namespace NCL {
 
 		protected:
 			const CollisionVolume* volume;
-			Transform*		transform;
+			Transform& transform;
 
 			float inverseMass;
 			float elasticity;

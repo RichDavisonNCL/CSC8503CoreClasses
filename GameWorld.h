@@ -58,6 +58,26 @@ namespace NCL {
 				return worldStateCounter;
 			}
 
+			void SetSunPosition(const Vector3& pos)
+			{
+				sunPosition = pos;
+			}
+
+			Vector3 GetSunPosition() const
+			{
+				return sunPosition;
+			}
+
+			void SetSunColour(const Vector3& col)
+			{
+				sunColour = col;
+			}
+
+			Vector3 GetSunColour() const
+			{
+				return sunColour;
+			}
+
 		protected:
 			std::vector<GameObject*> gameObjects;
 			std::vector<Constraint*> constraints;
@@ -68,6 +88,9 @@ namespace NCL {
 			bool shuffleObjects;
 			int		worldIDCounter;
 			int		worldStateCounter;
+
+			Vector3 sunPosition;
+			Vector3 sunColour;
 		};
 	}
 }

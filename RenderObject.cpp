@@ -4,6 +4,18 @@
 using namespace NCL::CSC8503;
 using namespace NCL;
 
+
+RenderObject::RenderObject(Transform& parentTransform, Mesh* mesh, const GameTechMaterial& material)
+	: transform(parentTransform)
+{
+	this->material	= material;
+	this->mesh		= mesh;
+	this->colour	= Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+
+	buffer	= nullptr;
+	anim	= nullptr;
+}
+
 void RenderObject::SetAnimation(MeshAnimation& inAnim) {
 	anim = &inAnim;
 
@@ -11,7 +23,7 @@ void RenderObject::SetAnimation(MeshAnimation& inAnim) {
 }
 
 void RenderObject::UpdateAnimation(float dt) {
-	if (!mesh || !anim) {
+	if (!mesh || !anim || anim->GetFrameCount() == 0) {
 		return;
 	}
 	animTime -= dt;
@@ -28,7 +40,7 @@ void RenderObject::UpdateAnimation(float dt) {
 			return;
 		}
 
-		const Matrix4* joints = anim->GetJointData(currentAnimFrame);
+		const Matrix4* joints = anim->GetWorldMatrices(currentAnimFrame);
 
 		for (int i = 0; i < skeleton.size(); ++i) {
 			skeleton[i] = joints[i] * inverseBindPose[i];

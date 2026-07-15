@@ -13,24 +13,24 @@ namespace NCL {
 		class Transform;
 		using namespace Maths;
 
+		enum class MaterialType {
+			Opaque,
+			Transparent,
+			Effect
+		};
+
+		struct GameTechMaterial
+		{
+			MaterialType	type	= MaterialType::Opaque;
+			Texture* diffuseTex		= nullptr;
+			Texture* bumpTex		= nullptr;
+		};
+
 		class RenderObject
 		{
 		public:
-			RenderObject(Transform* inTransform, Mesh* inMesh, Texture* inTex, Shader* inShader) {
-				buffer	= nullptr;
-				anim	= nullptr;
-
-				transform = inTransform;
-				mesh = inMesh;
-				texture = inTex;
-				shader = inShader;
-				colour = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-			}
+			RenderObject(Transform& parentTransform, Mesh* inMesh, const GameTechMaterial& material);
 			~RenderObject() {}
-
-			void SetDefaultTexture(Texture* t) {
-				texture = t;
-			}
 
 			Buffer* GetGPUBuffer() const {
 				return buffer;
@@ -40,20 +40,18 @@ namespace NCL {
 				buffer = b;
 			}
 
-			Texture* GetDefaultTexture() const {
-				return texture;
+			GameTechMaterial GetMaterial() const
+			{
+				return material;
 			}
 
 			Mesh*	GetMesh() const {
 				return mesh;
 			}
 
-			Transform*		GetTransform() const {
+			Transform& GetTransform() const
+			{
 				return transform;
-			}
-
-			Shader*		GetShader() const {
-				return shader;
 			}
 
 			void SetColour(const Vector4& c) {
@@ -73,14 +71,13 @@ namespace NCL {
 			}
 
 		protected:
-			Buffer*			buffer;
-			Mesh*			mesh;
-			Texture*		texture;
-			Shader*			shader;
-			Transform*		transform;
-			Vector4			colour;
-
-			MeshAnimation*	anim;
+			Transform&			transform;
+			GameTechMaterial	material;
+			Mesh*				mesh;
+			Buffer*				buffer;
+	
+			Vector4				colour;
+			MeshAnimation*		anim;
 
 			std::vector<Matrix4> skeleton;
 			float	animTime		= 0.0f;

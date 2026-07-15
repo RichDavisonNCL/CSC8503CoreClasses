@@ -1,21 +1,21 @@
 #include "NetworkBase.h"
 #include "./enet/enet.h"
 NetworkBase::NetworkBase()	{
-	netHandle = nullptr;
+//	netHandle = nullptr;
 }
 
 NetworkBase::~NetworkBase()	{
-	if (netHandle) {
-		enet_host_destroy(netHandle);
-	}
+	//if (netHandle) {
+	//	enet_host_destroy(netHandle);
+	//}
 }
 
 void NetworkBase::Initialise() {
-	enet_initialize();
+//	enet_initialize();
 }
 
 void NetworkBase::Destroy() {
-	enet_deinitialize();
+//	enet_deinitialize();
 }
 
 bool NetworkBase::ProcessPacket(GamePacket* packet, int peerID) {

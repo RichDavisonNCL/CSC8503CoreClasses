@@ -36,6 +36,15 @@ set(Networking
 	"GameServer.h"
 	"GameClient.cpp"   
 	"GameServer.cpp"
+
+	"NetworkBase.h"
+	"NetworkBase.cpp"
+
+	"NetworkObject.h"
+	"NetworkObject.cpp"
+
+	"NetworkState.h"
+	"NetworkState.cpp"
 )
 source_group("Networking" FILES ${Networking})
 
@@ -143,6 +152,8 @@ target_precompile_headers(${PROJECT_NAME} PRIVATE
     "../NCLCoreClasses/Quaternion.h"
     "../NCLCoreClasses/Plane.h"
     "../NCLCoreClasses/Matrix.h"
+
+	"../NCLCoreClasses/Window.h"
 )
 
 include_directories("../NCLCoreClasses/")
