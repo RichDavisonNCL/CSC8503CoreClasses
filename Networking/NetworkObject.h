@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "NetworkBase.h"
+#include "NetworkSystem.h"
 #include "NetworkState.h"
 
 namespace NCL::CSC8503 {
@@ -17,10 +17,10 @@ namespace NCL::CSC8503 {
 	};
 
 	struct DeltaPacket : public GamePacket {
-		int		fullID		= -1;
-		int		objectID	= -1;
-		char	pos[3];
-		char	orientation[4];
+		int		fullID			= -1;
+		int		objectID		= -1;
+		char	pos[3]			= { 0 };
+		char	orientation[4]	= { 0 };
 
 		DeltaPacket() {
 			type = Delta_State;
@@ -29,8 +29,8 @@ namespace NCL::CSC8503 {
 	};
 
 	struct ClientPacket : public GamePacket {
-		int		lastID;
-		char	buttonstates[8];
+		int		lastID			= -1;
+		char	buttonstates[8] = { 0 };
 
 		ClientPacket() {
 			size = sizeof(ClientPacket);

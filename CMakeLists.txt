@@ -7,8 +7,11 @@ set(PROJECT_NAME CSC8503CoreClasses)
 file(GLOB_RECURSE Header_Files CONFIGURE_DEPENDS *.h)
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${Header_Files})
 
-file(GLOB_RECURSE Source_Files CONFIGURE_DEPENDS *.cpp)
+file(GLOB_RECURSE Source_Files CONFIGURE_DEPENDS *.cpp *.c)
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${Source_Files})
+
+#file(GLOB_RECURSE Source_Files CONFIGURE_DEPENDS *.c)
+#source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${Source_Files})
 
 set(ALL_FILES
     ${Header_Files}
@@ -58,3 +61,8 @@ target_precompile_headers(${PROJECT_NAME} PRIVATE
 
 include_directories("../NCLCoreClasses/")
 include_directories("./")
+
+if(MSVC)
+	target_link_libraries(${PROJECT_NAME} PRIVATE "winmm.lib")
+    target_link_libraries(${PROJECT_NAME} PRIVATE "ws2_32.lib")
+endif()
