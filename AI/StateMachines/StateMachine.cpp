@@ -1,45 +1,42 @@
 #include "StateMachine.h"
-#include "State.h"
-#include "StateTransition.h"
 
-using namespace NCL::CSC8503;
+using namespace NCL;
+using namespace CSC8503;
 
 StateMachine::StateMachine()	{
-	activeState = nullptr;
 }
 
 StateMachine::~StateMachine()	{
-	for (auto& i : allStates) {
-		delete i;
-	}
-	for (auto& i : allTransitions) {
-		delete i.second;
-	}
 }
 
-void StateMachine::AddState(State* s) {
+int StateMachine::AddState(StateUpdateFunction s) {
 	allStates.emplace_back(s);
-	if (activeState == nullptr) {
-		activeState = s;
+	if (activeState == -1) {
+		activeState = allStates.size() - 1;
+		newState = true;
 	}
+	return allStates.size() - 1;
 }
 
-void StateMachine::AddTransition(StateTransition* t) {
-	allTransitions.insert(std::make_pair(t->GetSourceState(), t));
+void StateMachine::AddTransition(int sourceState, int destState, StateTransitionFunction func) {
+	Transition transition;
+	transition.destState	= destState;
+	transition.testFunc		= func;
+	stateTransitions.insert(std::make_pair(sourceState, transition));
 }
 
 void StateMachine::Update(float dt) {
-	if (activeState) {
-		activeState->Update(dt);
-	
-		//Get the transition set starting from this state node;
-		std::pair<TransitionIterator, TransitionIterator> range = allTransitions.equal_range(activeState);
+	if (activeState != -1) {
+		allStates[activeState](dt, newState);
+		newState = false;
+	}
 
-		for (auto& i = range.first; i != range.second; ++i) {
-			if (i->second->CanTransition()) {
-				State* newState = i->second->GetDestinationState();
-				activeState = newState;
-			}
+	auto range = stateTransitions.equal_range(activeState);
+
+	for (auto& i = range.first; i != range.second; ++i) {
+		if (i->second.testFunc()) {
+			activeState = i->second.destState;
+			newState = true;
 		}
 	}
 }

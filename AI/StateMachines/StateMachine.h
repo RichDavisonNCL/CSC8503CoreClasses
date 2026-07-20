@@ -2,27 +2,32 @@
 
 namespace NCL {
 	namespace CSC8503 {
-		class State;
-		class StateTransition;
-
-		typedef std::multimap<State*, StateTransition*> TransitionContainer;
-		typedef TransitionContainer::iterator TransitionIterator;
+		using StateUpdateFunction		= std::function<void(float, bool)>;
+		using StateTransitionFunction	= std::function<bool()>;
 
 		class StateMachine	{
 		public:
 			StateMachine();
 			virtual ~StateMachine(); //made it virtual!
 
-			void AddState(State* s);
-			void AddTransition(StateTransition* t);
+			int  AddState(StateUpdateFunction s);
+
+			void AddTransition(int sourceState, int destState, StateTransitionFunction func);
 
 			virtual void Update(float dt); //made it virtual!
 
 		protected:
-			State * activeState;
+			int activeState = -1;
+			bool newState = false;
 
-			std::vector<State*> allStates;
-			TransitionContainer allTransitions;
+			std::vector<StateUpdateFunction> allStates;
+
+			struct Transition {
+				int destState;
+				StateTransitionFunction testFunc;
+			};
+
+			std::multimap<int, Transition> stateTransitions;
 		};
 	}
 }
