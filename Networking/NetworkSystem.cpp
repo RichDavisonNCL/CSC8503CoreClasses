@@ -5,21 +5,18 @@
 #include "./enet/enet.h"
 #endif
 
+using namespace NCL;
+using namespace CSC8503;
+
 NetworkSystem::NetworkSystem()	{
-#ifdef _WIN32
 	enet_initialize();
-#endif
 }
 
 NetworkSystem::~NetworkSystem()	{
-#ifdef _WIN32
 	ShutdownClient();
 	ShutdownServer();
-#endif
 
-#ifdef _WIN32
 	enet_deinitialize();
-#endif
 }
 
 void NetworkSystem::UpdateNetwork() {
@@ -27,7 +24,12 @@ void NetworkSystem::UpdateNetwork() {
 	if (IsServer()) {
 		while (enet_host_service(serverHandle, &event, 0) > 0) {
 			if (event.type == ENET_EVENT_TYPE_CONNECT) {
-				std::cout << " Server : New client connected " << std::endl;
+				std::cout << "Server: New client connected from "
+					<< (event.peer->address.host & 0xFF)			<< "."
+					<< ((event.peer->address.host >> 8) & 0xFF)		<< "."
+					<< ((event.peer->address.host >> 16) & 0xFF)	<< "."
+					<< ((event.peer->address.host >> 24) & 0xFF)	<< ":"
+					<< event.peer->address.port						<< "\n";
 			}
 			if (event.type == ENET_EVENT_TYPE_DISCONNECT) {
 				std::cout << " A client has disconnected " << std::endl;
@@ -78,14 +80,19 @@ void NetworkSystem::InitialiseClient(uint8_t a, uint8_t b, uint8_t c, uint8_t d,
 void NetworkSystem::ShutdownServer()	{
 	//SendServerPacket(BasicNetworkMessages::Shutdown);
 	//SendServerPacket()
-	enet_host_destroy(serverHandle);
+	if (serverHandle) {
+		enet_host_destroy(serverHandle);
+	}
 	serverHandle = nullptr;
-
 }
 
 void NetworkSystem::ShutdownClient()	{
-	enet_peer_disconnect(clientPeer, 0);
-	enet_host_destroy(clientHandle);
+	if (clientPeer) {
+		enet_peer_disconnect(clientPeer, 0);
+	}
+	if (clientHandle) {
+		enet_host_destroy(clientHandle);
+	}
 	clientHandle	= nullptr;
 	clientPeer		= nullptr;
 }
@@ -102,5 +109,6 @@ void NetworkSystem::BroadcastServerPacket(GamePacket& packet) {
 
 void NetworkSystem::SendServerPacket(GamePacket& packet, int toPeer) {
 	ENetPacket* dataPacket = enet_packet_create(&packet, packet.GetTotalSize(), 0);
-	enet_host_broadcast(serverHandle, 0, dataPacket);
+	//dataPacket
+	enet_peer_send(clientPeer, 0, dataPacket);
 }
