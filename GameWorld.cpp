@@ -1,9 +1,8 @@
 #include "GameWorld.h"
 #include "GameObject.h"
-#include "Constraint.h"
-#include "CollisionDetection.h"
+#include "./Physics/Constraint.h"
+#include "./Collision/CollisionDetection.h"
 #include "Camera.h"
-
 
 using namespace NCL;
 using namespace NCL::CSC8503;
@@ -94,7 +93,7 @@ bool GameWorld::Raycast(Ray& r, RayCollision& closestCollision, bool closestObje
 			continue;
 		}
 		RayCollision thisCollision;
-		if (CollisionDetection::RayIntersection(r, *i, thisCollision)) {
+		if (NCL::CollisionDetection::RayIntersection(r, *i, thisCollision)) {
 				
 			if (!closestObject) {	
 				closestCollision		= collision;

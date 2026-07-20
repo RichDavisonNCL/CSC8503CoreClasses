@@ -12,9 +12,14 @@
 #include "Ray.h"
 
 using NCL::Camera;
-using namespace NCL::Maths;
-using namespace NCL::CSC8503;
+
 namespace NCL {
+	using namespace NCL::Maths;
+	using namespace NCL::CSC8503;
+
+	class  Maths::Ray;
+	struct Maths::RayCollision;
+
 	class CollisionDetection
 	{
 	public:
@@ -22,18 +27,16 @@ namespace NCL {
 			Vector3 localA;
 			Vector3 localB;
 			Vector3 normal;
-			float	penetration;
+			float	penetration = 0.0f;
 		};
 		struct CollisionInfo {
-			GameObject* a;
-			GameObject* b;		
-			int		framesLeft;
+			GameObject* a		= nullptr;
+			GameObject* b		= nullptr;		
+			int		framesLeft	= 0;
 
 			ContactPoint point;
 
-			CollisionInfo() {
-
-			}
+			CollisionInfo() = default;
 
 			void AddContactPoint(const Vector3& localA, const Vector3& localB, const Vector3& normal, float p) {
 				point.localA		= localA;

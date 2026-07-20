@@ -1,5 +1,6 @@
 #pragma once
 #include "GameWorld.h"
+#include "./Collision/CollisionDetection.h"
 
 namespace NCL {
 	namespace CSC8503 {
@@ -36,7 +37,7 @@ namespace NCL {
 			void UpdateCollisionList();
 			void UpdateObjectAABBs();
 
-			void ImpulseResolveCollision(GameObject& a , GameObject&b, CollisionDetection::ContactPoint& p) const;
+			void ImpulseResolveCollision(GameObject& a , GameObject&b, NCL::CollisionDetection::ContactPoint& p) const;
 
 			GameWorld& gameWorld;
 
@@ -45,9 +46,9 @@ namespace NCL {
 			float	dTOffset;
 			float	globalDamping;
 
-			std::set<CollisionDetection::CollisionInfo> allCollisions;
-			std::set<CollisionDetection::CollisionInfo> broadphaseCollisions;
-			std::vector<CollisionDetection::CollisionInfo> broadphaseCollisionsVec;
+			std::set<NCL::CollisionDetection::CollisionInfo> allCollisions;
+			std::set<NCL::CollisionDetection::CollisionInfo> broadphaseCollisions;
+			std::vector<NCL::CollisionDetection::CollisionInfo> broadphaseCollisionsVec;
 			bool useBroadPhase		= true;
 			int numCollisionFrames	= 5;
 		};

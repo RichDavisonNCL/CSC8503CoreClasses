@@ -1,7 +1,7 @@
 #include "PhysicsSystem.h"
 #include "PhysicsObject.h"
 #include "GameObject.h"
-#include "CollisionDetection.h"
+#include "./Collision/CollisionDetection.h"
 #include "Quaternion.h"
 
 #include "Constraint.h"
@@ -10,7 +10,7 @@
 
 #include "Debug.h"
 #include "Window.h"
-#include <functional>
+
 using namespace NCL;
 using namespace CSC8503;
 

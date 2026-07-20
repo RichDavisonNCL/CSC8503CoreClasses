@@ -1,15 +1,14 @@
 #pragma once
-#include <random>
+#include "../NCLCoreClasses/Camera.h"
+#include "./Collision/Ray.h"
 
-#include "Ray.h"
-#include "CollisionDetection.h"
-#include "QuadTree.h"
 namespace NCL {
 		class Camera;
-		using Maths::Ray;
+		class CollisionDetection;
 	namespace CSC8503 {
 		class GameObject;
 		class Constraint;
+		
 
 		typedef std::function<void(GameObject*)> GameObjectFunc;
 		typedef std::vector<GameObject*>::const_iterator GameObjectIterator;
