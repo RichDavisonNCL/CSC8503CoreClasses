@@ -68,8 +68,8 @@ void PhysicsObject::InitSphereInertia() {
 void PhysicsObject::UpdateInertiaTensor() {
 	Quaternion q = transform.GetOrientation();
 	
-	Matrix3 invOrientation	= Quaternion::RotationMatrix<Matrix3>(q.Conjugate());
-	Matrix3 orientation		= Quaternion::RotationMatrix<Matrix3>(q);
+	Matrix4 invOrientation	= Quaternion::RotationMatrix<Matrix4>(q.Conjugate());
+	Matrix4 orientation		= Quaternion::RotationMatrix<Matrix4>(q);
 
-	inverseInteriaTensor = orientation * Matrix::Scale3x3(inverseInertia) *invOrientation;
+	inverseInteriaTensor = orientation * Matrix::Scale(inverseInertia) *invOrientation;
 }

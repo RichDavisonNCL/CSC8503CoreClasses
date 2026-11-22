@@ -30,7 +30,7 @@ namespace NCL {
 		{
 		public:
 			RenderObject(Transform& parentTransform, Mesh* inMesh, const GameTechMaterial& material);
-			~RenderObject() {}
+			virtual ~RenderObject() {}
 
 			Buffer* GetGPUBuffer() const {
 				return buffer;

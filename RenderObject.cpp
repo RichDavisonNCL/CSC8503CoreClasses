@@ -40,7 +40,7 @@ void RenderObject::UpdateAnimation(float dt) {
 			return;
 		}
 
-		const Matrix4* joints = anim->GetWorldMatrices(currentAnimFrame);
+		const auto joints = anim->GetWorldMatrices(currentAnimFrame);
 
 		for (int i = 0; i < skeleton.size(); ++i) {
 			skeleton[i] = joints[i] * inverseBindPose[i];
