@@ -3,7 +3,9 @@
 using namespace NCL::CSC8503;
 using namespace NCL;
 
-GameTechMaterial dummyMat; //lmao
+GameTechMaterial dummyMat{
+	.type = MaterialType::Effect
+}; //lmao
 
 GLTFRenderObject::GLTFRenderObject(Transform& parentTransform, GLTFScene& scene)
 	: RenderObject(parentTransform, nullptr, dummyMat)
