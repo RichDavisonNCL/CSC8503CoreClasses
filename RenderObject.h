@@ -24,6 +24,9 @@ namespace NCL {
 			MaterialType	type	= MaterialType::Opaque;
 			Texture* diffuseTex		= nullptr;
 			Texture* bumpTex		= nullptr;
+//Quick hack for multi layer materials!
+//If this isn't empty, the renderer will source all of its textures from here...
+			std::vector< GameTechMaterial> meshLayers; 
 		};
 
 		class RenderObject
@@ -40,7 +43,12 @@ namespace NCL {
 				buffer = b;
 			}
 
-			GameTechMaterial GetMaterial() const
+			GameTechMaterial GetMaterial()
+			{
+				return material;
+			}
+
+			const GameTechMaterial& GetMaterial() const
 			{
 				return material;
 			}
@@ -64,9 +72,13 @@ namespace NCL {
 
 			void SetAnimation(MeshAnimation& inAnim);
 
-			void UpdateAnimation(float dt);
+			virtual void UpdateAnimation(float dt);
 
 			std::vector<Matrix4>& GetSkeleton() {
+				return skeleton;
+			}
+
+			const std::vector<Matrix4>& GetSkeleton() const {
 				return skeleton;
 			}
 

@@ -21,6 +21,8 @@ namespace NCL {
 				return scene;
 			}
 
+			void UpdateAnimation(float dt) override;
+
 		protected:
 			GLTFScene*			scene;
 		};
