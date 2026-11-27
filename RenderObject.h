@@ -82,6 +82,14 @@ namespace NCL {
 				return skeleton;
 			}
 
+			Vector3 GetDrawOffset() const {
+				return drawOffset;
+			}
+
+			void SetDrawOffset(Vector3 offset) {
+				drawOffset = offset;
+			}
+
 		protected:
 			Transform&			transform;
 			GameTechMaterial	material;
@@ -90,6 +98,8 @@ namespace NCL {
 	
 			Vector4				colour;
 			MeshAnimation*		anim;
+
+			Vector3				drawOffset;
 
 			std::vector<Matrix4> skeleton;
 			float	animTime		= 0.0f;
